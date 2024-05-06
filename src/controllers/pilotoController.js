@@ -1,12 +1,11 @@
-import institutionModel from '../models/InstitutionModel';
+import piloto from '../models/piloto';
 
 const get = async (req, res) => {
-    
   try {
     const id = req.params.id ? req.params.id.toString().replace(/\D/g, '') : null;
 
     if (!id) {
-      const response = await institutionModel.findAll({
+      const response = await piloto.findAll({
         order: [['id', 'asc']],
       });
       return res.status(200).send({
@@ -16,7 +15,7 @@ const get = async (req, res) => {
       });
     }
 
-    const response = await institutionModel.findOne({ where: { id } });
+    const response = await piloto.findOne({ where: { id } });
 
     if (!response) {
       return res.status(200).send({
@@ -41,9 +40,11 @@ const get = async (req, res) => {
 };
 
 const create = async (dados, res) => {
-  const { name,document_number, address_id } = dados;
+  const { idDados } = dados;
 
-  const response = await institutionModel.create({name,document_number, address_id});
+  const response = await piloto.create({
+    idDados,
+  });
 
   return res.status(200).send({
     type: 'success',
@@ -53,7 +54,7 @@ const create = async (dados, res) => {
 };
 
 const update = async (id, dados, res) => {
-  const response = await institutionModel.findOne({ where: { id } });
+  const response = await piloto.findOne({ where: { id } });
 
   if (!response) {
     return res.status(200).send({
@@ -102,7 +103,7 @@ const destroy = async (req, res) => {
       });
     }
 
-    const response = await institutionModel.findOne({ where: { id } });
+    const response = await piloto.findOne({ where: { id } });
 
     if (!response) {
       return res.status(200).send({

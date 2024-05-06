@@ -1,11 +1,11 @@
-import AdressModel from '../models/AddressModel';
+import voo from '../models/voo';
 
 const get = async (req, res) => {
   try {
     const id = req.params.id ? req.params.id.toString().replace(/\D/g, '') : null;
 
     if (!id) {
-      const response = await AdressModel.findAll({
+      const response = await voo.findAll({
         order: [['id', 'asc']],
       });
       return res.status(200).send({
@@ -15,7 +15,7 @@ const get = async (req, res) => {
       });
     }
 
-    const response = await AdressModel.findOne({ where: { id } });
+    const response = await voo.findOne({ where: { id } });
 
     if (!response) {
       return res.status(200).send({
@@ -40,17 +40,14 @@ const get = async (req, res) => {
 };
 
 const create = async (dados, res) => {
-  const {
-    country, state, city, neighborhood, street, postalCode,
-  } = dados;
+  const { codigo, idagendarVoo, idaviao, idpiloto, idaeromocos } = dados;
 
-  const response = await AdressModel.create({
-    country,
-    state,
-    city,
-    neighborhood,
-    street,
-    postalCode,
+  const response = await voo.create({
+    codigo,
+    idagendarVoo,
+    idaviao,
+    idpiloto,
+    idaeromocos,
   });
 
   return res.status(200).send({
@@ -61,7 +58,7 @@ const create = async (dados, res) => {
 };
 
 const update = async (id, dados, res) => {
-  const response = await AdressModel.findOne({ where: { id } });
+  const response = await voo.findOne({ where: { id } });
 
   if (!response) {
     return res.status(200).send({
@@ -110,7 +107,7 @@ const destroy = async (req, res) => {
       });
     }
 
-    const response = await AdressModel.findOne({ where: { id } });
+    const response = await voo.findOne({ where: { id } });
 
     if (!response) {
       return res.status(200).send({
